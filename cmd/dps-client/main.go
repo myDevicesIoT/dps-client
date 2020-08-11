@@ -25,6 +25,7 @@ func initConfig() provision.Options {
 	flag.StringVar(&opts.Key, "k", "", "Full path to the device private key")
 	flag.StringVar(&inputFile, "i", "", "Input file containing the opts settings")
 	flag.StringVar(&opts.OutputFile, "o", "", "Output file containing the opts settings")
+	flag.StringVar(&opts.Protocol, "p", "mqtt", "Protocol to use when provisioning device, mqtt or https")
 	trace := flag.Bool("t", false, "Output trace info")
 	ver := flag.Bool("v", false, "Output version info")
 	flag.Parse()

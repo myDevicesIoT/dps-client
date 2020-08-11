@@ -16,6 +16,10 @@ armv7: dps-client
 mipsle: TARGETARCH=env GOOS=linux GOARCH=mipsle
 mipsle: dps-client
 
+#Use upx to pack the binary to decrease the size
+smaller:
+	upx build/dps-client
+
 clean:
 	@echo "Cleaning up workspace"
 	@rm -rf build
