@@ -13,6 +13,9 @@ armv5: dps-client
 armv7: TARGETARCH=env GOOS=linux GOARCH=arm GOARM=7
 armv7: dps-client
 
+mips: TARGETARCH=env GOOS=linux GOARCH=mips
+mips: dps-client
+
 mipsle: TARGETARCH=env GOOS=linux GOARCH=mipsle
 mipsle: dps-client
 
