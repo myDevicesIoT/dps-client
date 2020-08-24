@@ -50,7 +50,7 @@ func initConfig() provision.Options {
 		}
 	}
 
-	viper.SetDefault("integration.marshaler", "json")
+	viper.SetDefault("integration.marshaler", "protobuf")
 	viper.SetDefault("integration.mqtt.auth.type", "azure_iot_hub")
 
 	viper.SetDefault("integration.mqtt.auth.azure_iot_hub.provisioning.Endpoint", "global.azure-devices-provisioning.net")
