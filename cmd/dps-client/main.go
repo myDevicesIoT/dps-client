@@ -18,7 +18,7 @@ var version string // set by the compiler
 func initConfig() provision.Options {
 	var opts provision.Options
 	var inputFile string
-	flag.StringVar(&opts.Endpoint, "e", "global.azure-devices-provisioning.net", "Device provisioning Endpoint URI")
+	flag.StringVar(&opts.Endpoint, "e", "", "Device provisioning Endpoint URI")
 	flag.StringVar(&opts.Scope, "s", "", "Device provisioning scope ID")
 	flag.StringVar(&opts.RegistrationID, "r", "", "Registration ID of the device")
 	flag.StringVar(&opts.Cert, "c", "", "Full path to the device certificate")
