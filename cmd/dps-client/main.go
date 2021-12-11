@@ -50,7 +50,7 @@ func initConfig() provision.Options {
 		}
 	}
 
-	viper.SetDefault("integration.marshaler", "protobuf")
+	viper.SetDefault("integration.marshaler", "json")
 	viper.SetDefault("integration.mqtt.auth.type", "azure_iot_hub")
 
 	viper.SetDefault("integration.mqtt.auth.azure_iot_hub.provisioning.Endpoint", "global.azure-devices-provisioning.net")
@@ -58,15 +58,12 @@ func initConfig() provision.Options {
 
 	viper.SetDefault("commands.commands.reboot.command", "/opt/mydevices/command-ctrl.sh reboot")
 	viper.SetDefault("commands.commands.reboot.max_execution_duration", "1s")
-	viper.SetDefault("commands.commands.reboot.token", "awVDzEM5S+6dsRJOtF+9lg==")
 
 	viper.SetDefault("commands.commands.remote-ctrl.command", "/opt/mydevices/command-ctrl.sh remote-ctrl")
 	viper.SetDefault("commands.commands.remote-ctrl.max_execution_duration", "15s")
-	viper.SetDefault("commands.commands.remote-ctrl.token", "RJ5IajLcR5aAbhv/0mvdxw==")
 
 	viper.SetDefault("commands.commands.update.command", "/opt/mydevices/command-ctrl.sh update")
 	viper.SetDefault("commands.commands.update.max_execution_duration", "20m")
-	viper.SetDefault("commands.commands.update.token", "orrAp+5+RwSW96qWFB4tog==")
 
 	if opts.Endpoint == "" {
 		opts.Endpoint = viper.GetString("integration.mqtt.auth.azure_iot_hub.provisioning.Endpoint")

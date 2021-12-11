@@ -23,6 +23,9 @@ mipsle: dps-client
 smaller:
 	upx build/dps-client
 
+package:
+	cd packaging; ./package.sh $(VERSION)
+
 clean:
 	@echo "Cleaning up workspace"
 	@rm -rf build

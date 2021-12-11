@@ -1,0 +1,28 @@
+
+[commands]
+
+  [commands.commands]
+
+    [commands.commands.reboot]
+      command = "/opt/mydevices/command-ctrl.sh reboot"
+      max_execution_duration = "1s"
+
+    [commands.commands.remote-ctrl]
+      command = "/opt/mydevices/command-ctrl.sh remote-ctrl"
+      max_execution_duration = "15s"
+
+    [commands.commands.update]
+      command = "/opt/mydevices/command-ctrl.sh update"
+      max_execution_duration = "20m"
+
+[integration]
+  marshaler = "json"
+
+  [integration.mqtt]
+
+    [integration.mqtt.auth]
+      type = "azure_iot_hub"
+
+        [integration.mqtt.auth.azure_iot_hub.provisioning]
+          endpoint = "global.azure-devices-provisioning.net"
+          scope = "0ne0006B4D6"
