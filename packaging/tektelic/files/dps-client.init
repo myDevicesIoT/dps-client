@@ -1,0 +1,84 @@
+#!/bin/bash
+
+### BEGIN INIT INFO
+# Provides:          dps-client
+# Required-Start:    $network $local_fs $remote_fs $syslog
+# Required-Stop:     $network $local_fs $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start dps-client at boot time
+# Description:       Provision the device with Azure IoT.
+### END INIT INFO
+
+NAME="dps-client"
+LOCK="/var/lock/$NAME"
+ENABLED="yes"
+START_STOP_DAEMON="start-stop-daemon"
+
+[ -f /etc/default/$NAME ] && source /etc/default/$NAME
+
+run_dir=/var/run/mydevices
+
+dps_client=/opt/mydevices/dps-client-daemon.sh
+dps_client_pidfile=$run_dir/$NAME.pid
+
+
+if [ "$ENABLED" != "yes" ]; then
+    echo "$NAME: disabled in /etc/default"
+    exit
+fi
+
+do_start() {
+    echo -n "Starting $NAME: "
+    # create run directory
+    mkdir -p $run_dir
+    $START_STOP_DAEMON --start  --background --pidfile "$dps_client_pidfile" --make-pidfile --exec "$dps_client"
+    if [ $? = 0 ]; then
+        echo "OK"
+    fi
+}
+
+do_stop() {
+    echo -n "Stopping $NAME: "
+    $START_STOP_DAEMON --stop --quiet --oknodo --pidfile "$dps_client_pidfile" --retry TERM/60/KILL/5
+    rm -f $dps_client_pidfile
+    echo "OK"
+}
+
+force_stop() {                                  
+    do_stop                                     
+    rm -fr $LOCK        
+}                               
+        
+function try_lock() {                           
+    if mkdir $LOCK; then
+        trap "rm -fr $LOCK" EXIT
+    else
+        echo "DPS client lock not acquired, resource in use"
+        exit 1
+    fi
+}
+
+
+case "$1" in
+    "start")
+        try_lock
+        do_start
+        ;;
+    "stop")
+        force_stop
+        ;;
+    "restart")
+        ## Stop the service and regardless of whether it was
+        ## running or not, start it again.
+        try_lock
+        do_stop
+        do_start
+        ;;
+    *)
+        ## If no parameters are given, print which are available.
+        echo "Usage: $0 {start|stop|restart}"
+        exit 1
+    ;;
+esac
+

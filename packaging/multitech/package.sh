@@ -4,9 +4,12 @@ PACKAGE_NAME="dps-client"
 PACKAGE_VERSION=$1
 REV="r0"
 
-PACKAGE_FILE="../build/dps-client"
-DIR=`dirname $0`
-PACKAGE_DIR="${DIR}/package"
+#Get absolute path with readlink or opkg-build will fail
+ROOT_DIR=$(readlink -f "../../")
+BUILD_DIR="${ROOT_DIR}/build"
+PACKAGE_FILE="${BUILD_DIR}/armv5/dps-client"
+OUTPUT_DIR="${BUILD_DIR}/package/multitech"
+PACKAGE_DIR="${OUTPUT_DIR}/build"
 OPT_DIR="${PACKAGE_DIR}/opt/mydevices"
 ETC_OPT_DIR="${PACKAGE_DIR}/etc/opt/mydevices"
 INIT_DIR="${PACKAGE_DIR}/etc/init.d"
@@ -39,6 +42,7 @@ EOF
 chmod 755 $PACKAGE_DIR/CONTROL/prerm
 
 cat > $PACKAGE_DIR/CONTROL/conffiles << EOF
+/etc/opt/mydevices/default.toml
 EOF
 
 # Files
@@ -55,7 +59,7 @@ cp files/default.toml $ETC_OPT_DIR
 chmod 755 $ETC_OPT_DIR/default.toml
 
 # Package
-opkg-build -o root -g root $PACKAGE_DIR
+opkg-build -o root -g root $PACKAGE_DIR $OUTPUT_DIR
 
 # Cleanup
 rm -rf $PACKAGE_DIR
