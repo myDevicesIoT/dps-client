@@ -17,17 +17,19 @@ make <TARGET_ARCH>
 ```
 Where `TARGET_ARCH` is one of the following: `armv5`, `armv7`, `mips`, `mipsle`.
 
+# Package
+
+To create an opkg package for a specific gateway you can use the provided makefile targets. This requires [opkg-utils](https://git.yoctoproject.org/opkg-utils/) to be installed locally. This can be done by cloning the opkg-utils repo and running `make install`.
+
+```
+make <MANUFACTURER>
+```
+Where `MANUFACTURER` is one of the following: `multitech`, `tektelic`.
 
 # Usage
 
-The dps-client provisions devices by specifying the Azure IoT Hub and device options on the command line:
+The dps-client can provision devices using options from a specified input config file. It is recommended to use a default.toml file like the ones under the `packaging/<manufacturer>/files` folders and specify the device ID and cert file paths on the command line.
 
 ```
-dps-client -r <DEVICE_ID> -s <AZURE_DPS_SCOPE_ID> -c /path/to/device/cert.pem -k /path/to/device/key.pem -o /path/to/config.toml
-```
-
-The dps-client can also provision devices using options from a specified input config file:
-
-```
-dps-client -i /path/to/config.toml -o /path/to/config.toml
+dps-client -i /path/to/default.toml -r <DEVICE_ID> -c /path/to/device/cert.pem -k /path/to/device/key.pem -o /path/to/output_config.toml
 ```
