@@ -36,10 +36,10 @@ cp /tmp/chirpstack-gateway-bridge /usr/bin/
 EOF
 chmod 755 $PACKAGE_DIR/CONTROL/postinst
 
-cat > $PACKAGE_DIR/CONTROL/prerm << EOF
-/etc/init.d/azure-iot.service stop
-EOF
-chmod 755 $PACKAGE_DIR/CONTROL/prerm
+# cat > $PACKAGE_DIR/CONTROL/prerm << EOF
+# /etc/init.d/azure-iot.service stop
+# EOF
+# chmod 755 $PACKAGE_DIR/CONTROL/prerm
 
 cat > $PACKAGE_DIR/CONTROL/conffiles << EOF
 EOF
