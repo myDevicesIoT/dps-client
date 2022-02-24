@@ -1,12 +1,13 @@
-.PHONY: dps-client armv5 armv7 mips mipsle smaller multitech tektelic clean
+.PHONY: dps-client armv5 armv7 mips mipsle smaller multitech tektelic gemtek clean
 VERSION := $(shell git describe --always | sed -e "s/^v//")
 ARCH := $(shell uname -m)
 TARGETARCH=
+LDFLAGS="-s -w -X main.version=$(VERSION)"
 
 dps-client:
 	@echo "Compiling source"
 	@mkdir -p build
-	$(TARGETARCH) go build $(GO_EXTRA_BUILD_ARGS) -ldflags "-s -w -X main.version=$(VERSION)" -o build/$(ARCH)/dps-client cmd/dps-client/main.go
+	$(TARGETARCH) go build $(GO_EXTRA_BUILD_ARGS) -ldflags $(LDFLAGS) -o build/$(ARCH)/dps-client cmd/dps-client/main.go
 
 armv5: TARGETARCH=env GOOS=linux GOARCH=arm GOARM=5
 armv5: ARCH=armv5
@@ -33,6 +34,11 @@ multitech:
 
 tektelic:
 	cd packaging/tektelic; ./package.sh $(VERSION)
+
+gemtek: LDFLAGS="-s -w -X main.version=$(VERSION) -X main.commandScriptPath=/mnt/data/app/azureiot/command-ctrl.sh"
+gemtek: mipsle
+	upx build/mipsle/dps-client
+	cd packaging/gemtek; ./package.sh $(VERSION)	
 
 clean:
 	@echo "Cleaning up workspace"

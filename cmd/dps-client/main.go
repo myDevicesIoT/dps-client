@@ -13,7 +13,8 @@ import (
 	"github.com/spf13/viper"
 )
 
-var version string // set by the compiler
+var version string                                       // set by the compiler
+var commandScriptPath = "/opt/mydevices/command-ctrl.sh" // can be overridden by the compiler
 
 func initConfig() provision.Options {
 	var opts provision.Options
@@ -56,13 +57,16 @@ func initConfig() provision.Options {
 	viper.SetDefault("integration.mqtt.auth.azure_iot_hub.provisioning.Endpoint", "global.azure-devices-provisioning.net")
 	viper.SetDefault("integration.mqtt.auth.azure_iot_hub.provisioning.scope", "0ne00061135")
 
-	viper.SetDefault("commands.commands.reboot.command", "/opt/mydevices/command-ctrl.sh reboot")
+	rebootCommand := fmt.Sprintf("%s reboot", commandScriptPath)
+	viper.SetDefault("commands.commands.reboot.command", rebootCommand)
 	viper.SetDefault("commands.commands.reboot.max_execution_duration", "1s")
 
-	viper.SetDefault("commands.commands.remote-ctrl.command", "/opt/mydevices/command-ctrl.sh remote-ctrl")
+	remoteCommand := fmt.Sprintf("%s remote-ctrl", commandScriptPath)
+	viper.SetDefault("commands.commands.remote-ctrl.command", remoteCommand)
 	viper.SetDefault("commands.commands.remote-ctrl.max_execution_duration", "15s")
 
-	viper.SetDefault("commands.commands.update.command", "/opt/mydevices/command-ctrl.sh update")
+	updateCommand := fmt.Sprintf("%s update", commandScriptPath)
+	viper.SetDefault("commands.commands.update.command", updateCommand)
 	viper.SetDefault("commands.commands.update.max_execution_duration", "20m")
 
 	if opts.Endpoint == "" {
