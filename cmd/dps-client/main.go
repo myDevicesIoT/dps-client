@@ -101,6 +101,7 @@ func initConfig() provision.Options {
 }
 
 func main() {
+	log.SetOutput(os.Stdout)
 	opts := initConfig()
 	client := provision.NewClient(opts)
 	client.ProvisionDevice()
