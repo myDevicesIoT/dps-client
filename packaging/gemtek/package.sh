@@ -31,8 +31,8 @@ EOF
 
 cat > $PACKAGE_DIR/CONTROL/postinst << EOF
 cp /tmp/chirpstack-gateway-bridge /usr/bin/
-/etc/init.d/azure-iot.service stop
-/etc/init.d/azure-iot.service start
+/etc/init.d/azure-iot.service stop >> /tmp/gateway-bridge-dps-update.log
+/etc/init.d/azure-iot.service start >> /tmp/gateway-bridge-dps-update.log
 EOF
 chmod 755 $PACKAGE_DIR/CONTROL/postinst
 
