@@ -12,7 +12,7 @@ OUTPUT_DIR="${BUILD_DIR}/package/gemtek"
 PACKAGE_DIR="${OUTPUT_DIR}/build"
 USR_BIN_DIR="${PACKAGE_DIR}/usr/bin/"
 TMP_DIR="${PACKAGE_DIR}/tmp/"
-
+APP_LORA_PKG_DIR="${PACKAGE_DIR}/app/lora_pkg/"
 # Cleanup
 rm -rf $PACKAGE_DIR
 
@@ -47,8 +47,10 @@ EOF
 # Files
 mkdir -p $USR_BIN_DIR
 mkdir -p $TMP_DIR
+mkdir -p $APP_LORA_PKG_DIR
 
 cp files/chirpstack-gateway-bridge $TMP_DIR
+cp files/lora_wdg_pkt_fwd.sh $APP_LORA_PKG_DIR
 cp $PACKAGE_FILE $USR_BIN_DIR
 
 # Package
