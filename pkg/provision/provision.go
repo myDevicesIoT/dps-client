@@ -431,11 +431,11 @@ func (c *Client) messageHandler(client MQTT.Client, msg MQTT.Message) {
 
 func (c *Client) writeConfigFile(registrationState RegistrationState) {
 	log.WithField("output file", c.opts.OutputFile).Info("writing config file")
-	b, err := ioutil.ReadFile(c.opts.OutputFile)
-	if err == nil {
-		viper.SetConfigType("toml")
-		viper.MergeConfig(bytes.NewBuffer(b))
-	}
+	// b, err := ioutil.ReadFile(c.opts.OutputFile)
+	// if err == nil {
+	// 	viper.SetConfigType("toml")
+	// 	viper.MergeConfig(bytes.NewBuffer(b))
+	// }
 	viper.Set("integration.mqtt.auth.azure_iot_hub.hostname", registrationState.AssignedHub)
 	viper.Set("integration.mqtt.auth.azure_iot_hub.device_id", registrationState.DeviceID)
 	viper.Set("integration.mqtt.auth.azure_iot_hub.tls_cert", c.opts.Cert)
@@ -443,16 +443,21 @@ func (c *Client) writeConfigFile(registrationState RegistrationState) {
 	viper.Set("integration.mqtt.auth.azure_iot_hub.provisioning.Endpoint", c.opts.Endpoint)
 	viper.Set("integration.mqtt.auth.azure_iot_hub.provisioning.scope", c.opts.Scope)
 
-	file, _ := os.OpenFile(c.opts.OutputFile, os.O_WRONLY|os.O_CREATE, 0644)
-	defer file.Close()
 	config := viper.AllSettings()
 	tree, err := toml.TreeFromMap(config)
 	if err != nil {
 		log.WithError(err).Error("error creating toml tree")
 		return
 	}
-	if _, err := file.WriteString(tree.String()); err != nil {
-		log.WithError(err).Error("error writing opts file")
+	file, err := os.OpenFile(c.opts.OutputFile, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
+	defer file.Close()
+	if err != nil {
+		log.WithError(err).Error("error opening config file")
 		return
+	} else {
+		if _, err := file.WriteString(tree.String()); err != nil {
+			log.WithError(err).Error("error writing config file")
+			return
+		}
 	}
 }
