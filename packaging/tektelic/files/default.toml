@@ -26,3 +26,29 @@
         [integration.mqtt.auth.azure_iot_hub.provisioning]
           endpoint = "global.azure-devices-provisioning.net"
           scope = "0ne0006B4D6"
+
+[meta_data]
+
+  [meta_data.dynamic]
+    execution_interval = "2h0m0s"
+    max_execution_duration = "1m0s"
+
+    [meta_data.dynamic.commands]
+      apn = "/opt/mydevices/meta-data.sh apn"
+      battery_critical = "/opt/mydevices/meta-data.sh battery_critical"
+      charge_complete = "/opt/mydevices/meta-data.sh charge_complete"
+      charge_fault = "/opt/mydevices/meta-data.sh charge_fault"
+      charging = "/opt/mydevices/meta-data.sh charging"
+      chirpstack_version = "/opt/mydevices/meta-data.sh chirpstack_version"
+      dps_client_version = "/opt/mydevices/meta-data.sh dps_client_version"
+      eth_ip = "/opt/mydevices/meta-data.sh eth_ip"
+      eui = "/opt/mydevices/meta-data.sh eui"
+      firmware_version = "/opt/mydevices/meta-data.sh firmware_version"
+      imei = "/opt/mydevices/meta-data.sh imei"
+      mac = "/opt/mydevices/meta-data.sh mac"
+      manufacturer = "/opt/mydevices/meta-data.sh manufacturer"
+      model = "/opt/mydevices/meta-data.sh model"
+      power_source = "/opt/mydevices/meta-data.sh power_source"
+      serial = "/opt/mydevices/meta-data.sh serial"
+      voltage = "/opt/mydevices/meta-data.sh voltage"
+      wwan_ip = "/opt/mydevices/meta-data.sh wwan_ip"

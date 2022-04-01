@@ -10,11 +10,6 @@ BUILD_DIR="${ROOT_DIR}/build"
 PACKAGE_FILE="${BUILD_DIR}/armv5/dps-client"
 OUTPUT_DIR="${BUILD_DIR}/package/tektelic"
 PACKAGE_DIR="${OUTPUT_DIR}/build"
-# BUILD_DIR="../../build"
-# PACKAGE_FILE="${BUILD_DIR}/armv5/dps-client"
-# OUTPUT_DIR="${BUILD_DIR}/package/tektelic"
-# DIR=`dirname $0`
-# PACKAGE_DIR="${DIR}/package"
 OPT_DIR="${PACKAGE_DIR}/opt/mydevices"
 ETC_OPT_DIR="${PACKAGE_DIR}/etc/opt/mydevices"
 INIT_DIR="${PACKAGE_DIR}/etc/init.d"
@@ -60,6 +55,8 @@ cp files/$PACKAGE_NAME.init $INIT_DIR/$PACKAGE_NAME
 cp files/$PACKAGE_NAME.monit $MONIT_DIR/$PACKAGE_NAME
 cp files/command-ctrl.sh $OPT_DIR
 chmod 755 $OPT_DIR/command-ctrl.sh
+cp files/meta-data.sh $OPT_DIR
+chmod 755 $OPT_DIR/meta-data.sh
 cp files/dps-client-daemon.sh $OPT_DIR
 cp $PACKAGE_FILE $OPT_DIR
 cp files/default.toml $ETC_OPT_DIR

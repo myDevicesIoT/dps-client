@@ -26,3 +26,26 @@
         [integration.mqtt.auth.azure_iot_hub.provisioning]
           endpoint = "global.azure-devices-provisioning.net"
           scope = "0ne0006B4D6"
+
+[meta_data]
+
+  [meta_data.dynamic]
+    execution_interval = "4h0m0s"
+    max_execution_duration = "1m0s"
+
+    [meta_data.dynamic.commands]
+      apn = "/opt/mydevices/meta-data.sh apn"
+      chirpstack_version = "/opt/mydevices/meta-data.sh chirpstack_version"
+      dps_client_version = "/opt/mydevices/meta-data.sh dps_client_version"
+      eth_ip = "/opt/mydevices/meta-data.sh eth_ip"
+      eui = "/opt/mydevices/meta-data.sh eui"
+      firmware_version = "/opt/mydevices/meta-data.sh firmware_version"
+      hardware_version = "/usr/sbin/mts-io-sysfs show hw-version"
+      imei = "/usr/sbin/mts-io-sysfs show imei"
+      mac = "/usr/sbin/mts-io-sysfs show mac-eth"
+      manufacturer = "/usr/sbin/mts-io-sysfs show vendor-id"
+      model = "/usr/sbin/mts-io-sysfs show product-id"
+      ppp_ip = "/opt/mydevices/meta-data.sh ppp_ip"
+      serial = "/usr/sbin/mts-io-sysfs show device-id"
+      today_rx = "/opt/mydevices/meta-data.sh today_rx"
+      today_tx = "/opt/mydevices/meta-data.sh today_tx"
