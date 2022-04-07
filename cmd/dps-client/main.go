@@ -78,7 +78,7 @@ func initConfig() provision.Options {
 	viper.SetDefault("commands.commands.update.max_execution_duration", "20m")
 
 	if metaDataScriptPath != "" {
-		viper.SetDefault("meta_data.dynamic.execution_interval", 10*time.Minute)
+		viper.SetDefault("meta_data.dynamic.execution_interval", 4*time.Hour)
 		viper.SetDefault("meta_data.dynamic.max_execution_duration", time.Minute)
 		addMetaDataCommand("chirpstack_version")
 		addMetaDataCommand("dps_client_version")

@@ -30,7 +30,7 @@
 [meta_data]
 
   [meta_data.dynamic]
-    execution_interval = "10m0s"
+    execution_interval = "4h0m0s"
     max_execution_duration = "1m0s"
 
     [meta_data.dynamic.commands]
