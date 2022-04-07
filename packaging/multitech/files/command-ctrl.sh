@@ -4,7 +4,7 @@ add_ssh_entry() {
     ENTRY=$1
     SSH_FILE=$2
     #Add the entry in both .ssh dirs since ssh checks different locations based on env variables and how it is launched, e.g. on boot vs. manually
-    for DIR in ~root/.ssh $HOME/.ssh
+    for DIR in ~root/.ssh ~admin/.ssh
     do
         if [ ! -f "$DIR/$SSH_FILE" ] || ! grep -Fxq "$ENTRY" "$DIR/$SSH_FILE"; then
             mkdir -p $DIR
