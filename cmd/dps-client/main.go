@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"time"
 
 	"github.com/mydevicesiot/dps-client/pkg/provision"
 
@@ -16,13 +15,6 @@ import (
 
 var version string                                       // set by the compiler
 var commandScriptPath = "/opt/mydevices/command-ctrl.sh" // can be overridden by the compiler
-var metaDataScriptPath = ""                              // can be overridden by the compiler
-
-func addMetaDataCommand(command string) {
-	metaDataCommand := fmt.Sprintf("meta_data.dynamic.commands.%s", command)
-	commandLine := fmt.Sprintf("%s %s", metaDataScriptPath, command)
-	viper.SetDefault(metaDataCommand, commandLine)
-}
 
 func initConfig() provision.Options {
 	var opts provision.Options
@@ -76,21 +68,6 @@ func initConfig() provision.Options {
 	updateCommand := fmt.Sprintf("%s update", commandScriptPath)
 	viper.SetDefault("commands.commands.update.command", updateCommand)
 	viper.SetDefault("commands.commands.update.max_execution_duration", "20m")
-
-	if metaDataScriptPath != "" {
-		viper.SetDefault("meta_data.dynamic.execution_interval", 10*time.Minute)
-		viper.SetDefault("meta_data.dynamic.max_execution_duration", time.Minute)
-		addMetaDataCommand("chirpstack_version")
-		addMetaDataCommand("dps_client_version")
-		addMetaDataCommand("eui")
-		addMetaDataCommand("firmware_version")
-		addMetaDataCommand("hardware_version")
-		addMetaDataCommand("ip")
-		addMetaDataCommand("mac")
-		addMetaDataCommand("manufacturer")
-		addMetaDataCommand("model")
-		addMetaDataCommand("serial")
-	}
 
 	if opts.Endpoint == "" {
 		opts.Endpoint = viper.GetString("integration.mqtt.auth.azure_iot_hub.provisioning.Endpoint")

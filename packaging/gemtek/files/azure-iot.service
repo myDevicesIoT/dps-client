@@ -1,0 +1,66 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2020 Browan
+# Provides:          azure-iot.service
+# Description:       Run the dps-client and the chirpstack-gateway-bridge
+
+START=99
+#HDRSTR="0000"
+GWID=`uci get -c /mnt/data/config mfg.system.lora_ee_cnt_0 | cut -c 1-16`
+BRIDGE="chirpstack-gateway-bridge"
+DPSC="dps-client"
+AZIOT_DIR="/mnt/data/app/azureiot"
+#EXE_DPS="/usr/bin/$DPSC"
+EXE_DPS="/mnt/data/myd/myd/$DPSC"
+#EXE_CGB="/usr/bin/$BRIDGE"
+EXE_CGB="/mnt/data/myd/myd/$BRIDGE"
+ENDPOINT="global.azure-devices-provisioning.net"
+SCOPE="0ne0006B4D6"
+#REGISTRATION_ID=$HDRSTR$GWID
+REGISTRATION_ID=$GWID
+DEVICE_CERTIFICATE="$AZIOT_DIR/certs/$HDRSTR$GWID.cert.pem"
+PRIVATE_KEY="$AZIOT_DIR/private/$HDRSTR$GWID.key.pem"
+CGB_CONFIG_FILE="$AZIOT_DIR/chirpstack-gateway-bridge.toml"
+DPS_CFG_FILE="/mnt/data/myd/myd/default.toml"
+DPS_LOG=/tmp/dps.log
+
+start() {
+
+	local mode=`uci -c /mnt/data/config/ get mfg.system.mode`
+	if [ "$mode" != "mfg" ]; then
+
+		if pgrep $BRIDGE > /dev/null; then
+			echo "[azure-iot.service] $BRIDGE already running. [`pgrep -f $BRIDGE`]"
+			exit 1
+		fi
+
+		echo "[azure-iot.service] Starting DPS..."
+		rm -rf $OUTPUT_FILE $DPS_LOG
+		#$EXE_DPS -e $ENDPOINT -s $SCOPE -r $REGISTRATION_ID -c $DEVICE_CERTIFICATE -k $PRIVATE_KEY -o $CGB_CONFIG_FILE -t >> $DPS_LOG
+		$EXE_DPS -i $DPS_CFG_FILE -r $REGISTRATION_ID -c $DEVICE_CERTIFICATE -k $PRIVATE_KEY -o $CGB_CONFIG_FILE -t >> $DPS_LOG
+		echo "[azure-iot.service] DPS is done!"
+		echo "[azure-iot.service] Starting CGB..."
+		$EXE_CGB -c $CGB_CONFIG_FILE > /dev/null 2>&1 &
+		sleep 3
+
+		if pgrep $BRIDGE > /dev/null; then
+			echo "[azure-iot.service] CGB is running! [`pgrep -f $BRIDGE`]" >> /tmp/test1.log
+		else
+			echo "[azure-iot.service] CGB is failed! Please see $DPS_LOG to get more detail messages" >> /tmp/test2.log
+		fi
+
+		exit 0
+	fi
+}
+
+stop(){
+	if ! pgrep $BRIDGE > /dev/null; then
+		echo "[azure-iot.service] $BRIDGE is not running."
+		exit 1
+	fi
+	echo "Stopping $BRIDGE..."
+	echo "[azure-iot.service] Stopping $BRIDGE... [`pgrep -f $BRIDGE`]"
+	kill -9 `pgrep $BRIDGE`
+	echo "[azure-iot.service] $BRIDGE is stopped"
+	exit 0
+}
+

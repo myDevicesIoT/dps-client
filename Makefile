@@ -37,7 +37,6 @@ tektelic: armv5
 	upx build/armv5/dps-client
 	cd packaging/tektelic; ./package.sh $(VERSION)
 
-gemtek: LDFLAGS="-s -w -X main.version=$(VERSION) -X main.commandScriptPath=/mnt/data/app/azureiot/command-ctrl.sh -X main.metaDataScriptPath=/mnt/data/app/azureiot/meta-data.sh"
 gemtek: mipsle
 	upx build/mipsle/dps-client
 	cd packaging/gemtek; ./package.sh $(VERSION)	

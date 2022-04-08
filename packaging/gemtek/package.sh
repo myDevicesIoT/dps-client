@@ -11,9 +11,8 @@ PACKAGE_FILE="${BUILD_DIR}/mipsle/dps-client"
 OUTPUT_DIR="${BUILD_DIR}/package/gemtek"
 PACKAGE_DIR="${OUTPUT_DIR}/build"
 USR_BIN_DIR="${PACKAGE_DIR}/usr/bin"
-TMP_DIR="${PACKAGE_DIR}/tmp"
 APP_LORA_PKG_DIR="${PACKAGE_DIR}/app/lora_pkg"
-MNT_DATA_APP_AZUREIOT_DIR="${PACKAGE_DIR}/mnt/data/app/azureiot"
+MYDEVICES_DATA_DIR="${PACKAGE_DIR}/mnt/data/myd/myd/"
 
 # Cleanup
 rm -rf $PACKAGE_DIR
@@ -32,7 +31,7 @@ Description: Azure device provisioning client
 EOF
 
 cat > $PACKAGE_DIR/CONTROL/postinst << EOF
-cp /tmp/chirpstack-gateway-bridge /usr/bin/
+cp /mnt/data/myd/myd/azure-iot.service /etc/init.d/
 /etc/init.d/azure-iot.service stop >> /tmp/gateway-bridge-dps-update.log
 /etc/init.d/azure-iot.service start >> /tmp/gateway-bridge-dps-update.log
 EOF
@@ -48,17 +47,16 @@ EOF
 
 # Files
 mkdir -p $USR_BIN_DIR
-mkdir -p $TMP_DIR
 mkdir -p $APP_LORA_PKG_DIR
-mkdir -p $MNT_DATA_APP_AZUREIOT_DIR
+mkdir -p $MYDEVICES_DATA_DIR
 
-cp files/chirpstack-gateway-bridge $TMP_DIR
+cp files/chirpstack-gateway-bridge $MYDEVICES_DATA_DIR
 cp files/lora_wdg_pkt_fwd.sh $APP_LORA_PKG_DIR
-cp files/command-ctrl.sh $MNT_DATA_APP_AZUREIOT_DIR
-chmod 755 $MNT_DATA_APP_AZUREIOT_DIR/command-ctrl.sh
-cp files/meta-data.sh $MNT_DATA_APP_AZUREIOT_DIR
-chmod 755 $MNT_DATA_APP_AZUREIOT_DIR/meta-data.sh
-cp $PACKAGE_FILE $USR_BIN_DIR
+cp files/command-ctrl.sh $MYDEVICES_DATA_DIR
+chmod 755 $MYDEVICES_DATA_DIR/command-ctrl.sh
+cp files/azure-iot.service $MYDEVICES_DATA_DIR
+chmod 755 $MYDEVICES_DATA_DIR/azure-iot.service
+cp $PACKAGE_FILE $MYDEVICES_DATA_DIR
 
 # Package
 opkg-build -o root -g root $PACKAGE_DIR $OUTPUT_DIR
