@@ -60,7 +60,7 @@ chmod 755 $OPT_DIR/meta-data.sh
 cp files/dps-client-daemon.sh $OPT_DIR
 cp $PACKAGE_FILE $OPT_DIR
 cp files/default.toml $ETC_OPT_DIR
-chmod 755 $ETC_OPT_DIR/default.toml
+chmod 644 $ETC_OPT_DIR/default.toml
 
 # Package
 opkg-build -o root -g root $PACKAGE_DIR $OUTPUT_DIR
