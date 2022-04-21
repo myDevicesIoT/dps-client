@@ -3,14 +3,15 @@
 
 case "$1" in
     "chirpstack_version")
-        /usr/bin/chirpstack-gateway-bridge version
+        /mnt/data/myd/myd/chirpstack-gateway-bridge version
         ;;
     "dps_client_version")
-        /usr/bin/dps-client -v
+        /mnt/data/myd/myd/dps-client -v
         ;;           
-    "ip")
-        DEFAULT_ROUTE=$(ip route show default | awk '/default/ {print $5}')
-        ip addr show $DEFAULT_ROUTE | grep 'inet\b' | awk '{print $2}' | cut -d/ -f1
+    "eth_ip")
+        # DEFAULT_ROUTE=$(ip route show default | awk '/default/ {print $5}')
+        # ip addr show $DEFAULT_ROUTE | grep 'inet\b' | awk '{print $2}' | cut -d/ -f1
+        ip addr show eth0 | grep 'inet\b' | awk '{print $2}' | cut -d/ -f1
         ;;
     "mac")
         # DEFAULT_ROUTE=$(ip route show default | awk '/default/ {print $5}')
