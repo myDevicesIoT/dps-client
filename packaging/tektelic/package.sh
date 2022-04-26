@@ -41,9 +41,9 @@ cat > $PACKAGE_DIR/CONTROL/prerm << EOF
 EOF
 chmod 755 $PACKAGE_DIR/CONTROL/prerm
 
-cat > $PACKAGE_DIR/CONTROL/conffiles << EOF
-/etc/opt/mydevices/default.toml
-EOF
+# cat > $PACKAGE_DIR/CONTROL/conffiles << EOF
+# /etc/opt/mydevices/default.toml
+# EOF
 
 # Files
 mkdir -p $OPT_DIR
