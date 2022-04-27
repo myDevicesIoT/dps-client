@@ -2,6 +2,11 @@
 
 
 case "$1" in
+    "cert_expiration")
+        CONFIG_FILE="/var/config/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml"
+        CERT_PATH=$(grep tls_cert $CONFIG_FILE | cut -d \" -f2)
+        openssl x509 -noout -in $CERT_PATH -enddate  | cut -d= -f2
+        ;;
     "chirpstack_version")
         /opt/chirpstack-gateway-bridge/chirpstack-gateway-bridge version
         ;;

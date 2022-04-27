@@ -36,6 +36,7 @@
     [meta_data.dynamic.commands]
       apn = "/opt/mydevices/meta-data.sh apn"
       battery_critical = "/opt/mydevices/meta-data.sh battery_critical"
+      cert_expiration = "/opt/mydevices/meta-data.sh cert_expiration"
       charge_complete = "/opt/mydevices/meta-data.sh charge_complete"
       charge_fault = "/opt/mydevices/meta-data.sh charge_fault"
       charging = "/opt/mydevices/meta-data.sh charging"

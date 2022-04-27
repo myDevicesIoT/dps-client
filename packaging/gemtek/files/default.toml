@@ -34,6 +34,7 @@
     max_execution_duration = "1m0s"
 
     [meta_data.dynamic.commands]
+      cert_expiration = "/mnt/data/myd/myd/meta-data.sh cert_expiration"
       chirpstack_version = "/mnt/data/myd/myd/meta-data.sh chirpstack_version"
       dps_client_version = "/mnt/data/myd/myd/meta-data.sh dps_client_version"
       eth_ip = "/mnt/data/myd/myd/meta-data.sh eth_ip"
