@@ -16,7 +16,7 @@ case "$1" in
     "eth_ip")
         # DEFAULT_ROUTE=$(ip route show default | awk '/default/ {print $5}')
         # ip addr show $DEFAULT_ROUTE | grep 'inet\b' | awk '{print $2}' | cut -d/ -f1
-        ip addr show eth0 | grep 'inet\b' | awk '{print $2}' | cut -d/ -f1
+        ip addr show eth0.2 | grep 'inet\b' | awk '{print $2}' | cut -d/ -f1
         ;;
     "mac")
         # DEFAULT_ROUTE=$(ip route show default | awk '/default/ {print $5}')
