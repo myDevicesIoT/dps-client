@@ -130,7 +130,10 @@ update() {
             UPDATE_OPTIONS=""
             FORCE_REINSTALL=$(echo "$FORCE_REINSTALL" | tr '[:upper:]' '[:lower:]')
             if [ "$FORCE_REINSTALL" == "true" ]; then
-                UPDATE_OPTIONS="--force-reinstall"
+                UPDATE_OPTIONS="$UPDATE_OPTIONS --force-reinstall"
+            fi
+            if [ "$FORCE_MAINTAINER" == "true" ]; then
+                UPDATE_OPTIONS="$UPDATE_OPTIONS --force-maintainer"
             fi
             echo "opkg install $UPDATE_FILE_PATH $UPDATE_OPTIONS" >> $LOG_FILE 2>&1
             opkg install $UPDATE_FILE_PATH $UPDATE_OPTIONS >> $LOG_FILE 2>&1

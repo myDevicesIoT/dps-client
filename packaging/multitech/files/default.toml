@@ -35,6 +35,7 @@
 
     [meta_data.dynamic.commands]
       apn = "/opt/mydevices/meta-data.sh apn"
+      cert_expiration = "/opt/mydevices/meta-data.sh cert_expiration"
       chirpstack_version = "/opt/mydevices/meta-data.sh chirpstack_version"
       dps_client_version = "/opt/mydevices/meta-data.sh dps_client_version"
       eth_ip = "/opt/mydevices/meta-data.sh eth_ip"

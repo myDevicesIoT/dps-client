@@ -26,3 +26,22 @@
         [integration.mqtt.auth.azure_iot_hub.provisioning]
           endpoint = "global.azure-devices-provisioning.net"
           scope = "0ne0006B4D6"
+          
+[meta_data]
+
+  [meta_data.dynamic]
+    execution_interval = "10m0s"
+    max_execution_duration = "1m0s"
+
+    [meta_data.dynamic.commands]
+      cert_expiration = "/mnt/data/myd/myd/meta-data.sh cert_expiration"
+      chirpstack_version = "/mnt/data/myd/myd/meta-data.sh chirpstack_version"
+      dps_client_version = "/mnt/data/myd/myd/meta-data.sh dps_client_version"
+      eth_ip = "/mnt/data/myd/myd/meta-data.sh eth_ip"
+      eui = "/mnt/data/myd/myd/meta-data.sh eui"
+      firmware_version = "/mnt/data/myd/myd/meta-data.sh firmware_version"
+      hardware_version = "/mnt/data/myd/myd/meta-data.sh hardware_version"
+      mac = "/mnt/data/myd/myd/meta-data.sh mac"
+      manufacturer = "/mnt/data/myd/myd/meta-data.sh manufacturer"
+      model = "/mnt/data/myd/myd/meta-data.sh model"
+      serial = "/mnt/data/myd/myd/meta-data.sh serial"
