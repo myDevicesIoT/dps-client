@@ -71,7 +71,52 @@ remote_ctrl() {
     sh -c 'sleep 10; rm $PRIVATE_KEY_FILE' >&- 2>&- &
 }
 
+backup_file() {
+  SUFFIX=0
+  BACKUP_FILE="$1.bak"
+  while test -e "$BACKUP_FILE"; do
+    BACKUP_FILE="$1.bak$((++SUFFIX))"
+  done
+  cp -v "$1" "$BACKUP_FILE"    
+}
+
+update_certs() {
+    if [ -z "$DEVICE_CERT" ]; then
+        echo "\$DEVICE_CERT is empty"
+        exit 1
+    fi
+
+    if [ -z "$DEVICE_KEY" ]; then
+        echo "\$DEVICE_KEY is empty"
+        exit 1
+    fi
+
+    CERT_DIR="/var/config/app/mydevices"
+    DEVEUI=$(mts-io-sysfs show lora/eui | tr -d : | tr '[:upper:]' '[:lower:]')    
+
+    if [ -z "$DEVICE_CERT_FILE" ]; then
+        DEVICE_CERT_FILE="$CERT_DIR/$DEVEUI.cert.pem"
+    fi
+
+    if [ -z "$DEVICE_KEY_FILE" ]; then
+        DEVICE_KEY_FILE="$CERT_DIR/$DEVEUI.key.pem"
+    fi
+
+    backup_file $DEVICE_CERT_FILE
+    backup_file $DEVICE_KEY_FILE
+    echo -e "$DEVICE_CERT" > "$DEVICE_CERT_FILE"
+    echo -e "$DEVICE_KEY" > "$DEVICE_KEY_FILE"
+
+    /etc/init.d/dps-client restart
+
+    exit 0
+}
+
 update() {
+    if [ "$UPDATE_TYPE" == "cert" ]; then
+        update_certs
+    fi
+
     if [ -z "$UPDATE_URL" ]; then
         echo "\$UPDATE_URL is empty"
         exit 1
