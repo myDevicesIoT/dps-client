@@ -71,10 +71,54 @@ remote_ctrl() {
         $(which sshd) -p $SSH_LOCAL_PORT -o "PubkeyAuthentication yes"
     fi
     ssh -o "ExitOnForwardFailure yes" -N -R $SSH_FORWARD_PORT:localhost:$SSH_LOCAL_PORT $SSH_USERNAME@$SSH_HOST -p $SSH_REMOTE_PORT -i $PRIVATE_KEY_FILE &
-    sh -c 'sleep 10; rm $PRIVATE_KEY_FILE'
+    sh -c 'sleep 10; rm $PRIVATE_KEY_FILE' >&- 2>&- &
+}
+
+backup_file() {
+  SUFFIX=0
+  BACKUP_FILE="$1.bak"
+  while test -e "$BACKUP_FILE"; do
+    BACKUP_FILE="$1.bak$((++SUFFIX))"
+  done
+  cp -v "$1" "$BACKUP_FILE"    
+}
+
+update_certs() {
+    if [ -z "$DEVICE_CERT" ]; then
+        echo "\$DEVICE_CERT is empty"
+        exit 1
+    fi
+
+    if [ -z "$DEVICE_KEY" ]; then
+        echo "\$DEVICE_KEY is empty"
+        exit 1
+    fi
+
+    AZIOT_DIR="/mnt/data/app/azureiot"
+    GWID=`uci get -c /mnt/data/config mfg.system.lora_ee_cnt_0 | cut -c 1-16`
+
+    if [ -z "$DEVICE_CERT_FILE" ]; then
+        DEVICE_CERT_FILE="$AZIOT_DIR/certs/$GWID.cert.pem"
+    fi
+
+    if [ -z "$DEVICE_KEY_FILE" ]; then
+        DEVICE_KEY_FILE="$AZIOT_DIR/private/$GWID.key.pem"
+    fi
+
+    backup_file $DEVICE_CERT_FILE
+    backup_file $DEVICE_KEY_FILE
+    echo -e "$DEVICE_CERT" > "$DEVICE_CERT_FILE"
+    echo -e "$DEVICE_KEY" > "$DEVICE_KEY_FILE"
+
+    sh -c 'sleep 10; /etc/init.d/azure-iot.service stop; /etc/init.d/azure-iot.service start' >&- 2>&- &
+
+    exit 0
 }
 
 update() {
+    if [ "$UPDATE_TYPE" == "cert" ]; then
+        update_certs
+    fi
     if [ -z "$UPDATE_URL" ]; then
         echo "\$UPDATE_URL is empty" >> $LOG_FILE 2>&1
         exit 1
