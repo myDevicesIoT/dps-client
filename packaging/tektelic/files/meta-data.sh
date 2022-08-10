@@ -24,6 +24,9 @@ case "$1" in
     "imei")
         snmpget -v2c -Oqv -m all -c set localhost wmImeiNumber.0 2> /dev/null
         ;;
+    "imsi")
+        snmpget -v2c -Oqv -m all -c set localhost wmImsi.0 2> /dev/null
+        ;;        
     "mac")
         cat /sys/class/net/eth0/address
         ;;

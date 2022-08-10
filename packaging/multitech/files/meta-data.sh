@@ -25,6 +25,9 @@ case "$1" in
     "apn")
         curl -s localhost/api/ppp/modem | python -c "import sys, json; print json.load(sys.stdin)['result']['apnString']"
         ;;
+    "imsi")
+        curl -s localhost/api/system | python -c "import sys, json; print json.load(sys.stdin)['result']['imsi']"
+        ;;
     "today_tx")
         curl -s localhost/api/stats/pppTotal | python -c "import sys, json; print json.load(sys.stdin)['result']['todayTx']"
         ;;

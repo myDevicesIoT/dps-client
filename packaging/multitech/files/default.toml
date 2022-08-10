@@ -43,6 +43,7 @@
       firmware_version = "/opt/mydevices/meta-data.sh firmware_version"
       hardware_version = "/usr/sbin/mts-io-sysfs show hw-version"
       imei = "/usr/sbin/mts-io-sysfs show imei"
+      imsi = "/opt/mydevices/meta-data.sh imsi"
       mac = "/usr/sbin/mts-io-sysfs show mac-eth"
       manufacturer = "/usr/sbin/mts-io-sysfs show vendor-id"
       model = "/usr/sbin/mts-io-sysfs show product-id"

@@ -46,6 +46,7 @@
       eui = "/opt/mydevices/meta-data.sh eui"
       firmware_version = "/opt/mydevices/meta-data.sh firmware_version"
       imei = "/opt/mydevices/meta-data.sh imei"
+      imsi = "/opt/mydevices/meta-data.sh imsi"
       mac = "/opt/mydevices/meta-data.sh mac"
       manufacturer = "/opt/mydevices/meta-data.sh manufacturer"
       model = "/opt/mydevices/meta-data.sh model"
