@@ -189,7 +189,8 @@ update() {
 }
 
 reboot_device() {
-    /usr/bin/tektelic_reset
+    echo "Rebooting"    
+    sh -c '/usr/bin/tektelic_reset' >&- 2>&- &
 }
 
 case "$1" in

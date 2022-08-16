@@ -189,7 +189,8 @@ update() {
 }
 
 reboot_device() {
-    reboot
+    echo "Rebooting"
+    sh -c 'reboot' >&- 2>&- &
 }
 
 case "$1" in
