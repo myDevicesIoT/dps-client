@@ -19,12 +19,12 @@ Where `TARGET_ARCH` is one of the following: `armv5`, `armv7`, `mips`, `mipsle`.
 
 # Package
 
-To create an opkg package for a specific gateway you can use the provided makefile targets. This requires [opkg-utils](https://git.yoctoproject.org/opkg-utils/) to be installed locally. This can be done by cloning the opkg-utils repo and running `make install`.
+To create an opkg package for a specific gateway you can use the provided makefile targets. This requires [opkg-utils](https://git.yoctoproject.org/opkg-utils/) to be installed locally. This can be done by cloning the opkg-utils repo and running `make install` from the opkg-utils root directory.
 
 ```
 make <MANUFACTURER>
 ```
-Where `MANUFACTURER` is one of the following: `multitech`, `tektelic`.
+Where `MANUFACTURER` is one of the following: `multitech`, `tektelic` or `gemtek`.
 
 # Usage
 
@@ -33,3 +33,13 @@ The dps-client can provision devices using options from a specified input config
 ```
 dps-client -i /path/to/default.toml -r <DEVICE_ID> -c /path/to/device/cert.pem -k /path/to/device/key.pem -o /path/to/output_config.toml
 ```
+
+# Packages
+
+The current versions of packages for the supported gateways are available here:
+
+- [Multitech](https://hwdartifacts.blob.core.windows.net/hwdassets/dps-client_1.3.8-r0_arm926ejste.ipk)
+- [Tektelic](https://hwdartifacts.blob.core.windows.net/hwdassets/dps-client_1.3.8-r0_kona.ipk)
+- [Gemtek](https://hwdartifacts.blob.core.windows.net/hwdassets/gateway-bridge-dps_1.3.8-r0_ramips_24kec.ipk)
+
+
