@@ -28,6 +28,27 @@ make <MANUFACTURER>
 ```
 Where `MANUFACTURER` is one of the following: `multitech`, `tektelic` or `gemtek`. The package will be created at `build/package/<MANUFACTURER>`.
 
+# Docker
+A *Dockerfile* is provided for ease of compiling on other architectures
+
+1. build image
+
+```shell
+docker build -t mydevices/dps-client:latest .
+```
+2. run headless container
+
+```shell
+docker run -w ./ -i -t mydevices/dps-client:latest /opt/dps-client/dps-client --help 
+```
+
+```
+docker run -v $(pwd):'/home/' -i -t mydevices/dps-client:v2 /opt/dps-client/dps-client -e global.azure-devices-provisioning.net -s 0ne0006B4D6 -r GATEWAY_ID -c /home/GATEWAY_ID.cert.pem -k /home/GATEWAY_ID.key.pem  -o /home/chirpstack-gateway-bridge.toml
+```
+The above command assumes that the current host has the certificates in a local directory. (pwd) 
+
+
+
 # Usage
 
 The `dps-client` can provision devices using options from a specified input config file. It is recommended to use a `default.toml` file like the ones under the `packaging/<manufacturer>/files` folders and specify the device ID and cert file paths on the command line. If using an input file it must contain the `[integration]` section like the ones under the `packaging/<manufacturer>/files` folders.
