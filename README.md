@@ -38,12 +38,13 @@ docker build -t mydevices/dps-client:latest .
 ```
 2. run headless container
 
+Example of how to run the binary
 ```shell
 docker run -w ./ -i -t mydevices/dps-client:latest /opt/dps-client/dps-client --help 
 ```
 
 ```
-docker run -v $(pwd):'/home/' -i -t mydevices/dps-client:v2 /opt/dps-client/dps-client -e global.azure-devices-provisioning.net -s 0ne0006B4D6 -r GATEWAY_ID -c /home/GATEWAY_ID.cert.pem -k /home/GATEWAY_ID.key.pem  -o /home/chirpstack-gateway-bridge.toml
+docker run -v $(pwd):'/home/' -i -t mydevices/dps-client:latest /opt/dps-client/dps-client -e global.azure-devices-provisioning.net -s 0ne0006B4D6 -r GATEWAY_ID -c /home/GATEWAY_ID.cert.pem -k /home/GATEWAY_ID.key.pem  -o /home/chirpstack-gateway-bridge.toml
 ```
 The above command assumes that the current host has the certificates in a local directory. (pwd) 
 
