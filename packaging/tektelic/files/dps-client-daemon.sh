@@ -45,5 +45,5 @@ do
     if [ "$RESTART_CHIRPSTACK" = true ]; then
         /etc/init.d/chirpstack-gateway-bridge restart
     fi
-	sleep 7d
+    sleep 7d
 done
