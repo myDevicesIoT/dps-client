@@ -48,6 +48,7 @@
       manufacturer = "/usr/sbin/mts-io-sysfs show vendor-id"
       model = "/usr/sbin/mts-io-sysfs show product-id"
       ppp_ip = "/opt/mydevices/metadata.sh ppp_ip"
+      rssi = "/opt/mydevices/metadata.sh rssi"
       serial = "/usr/sbin/mts-io-sysfs show device-id"
       today_rx = "/opt/mydevices/metadata.sh today_rx"
       today_tx = "/opt/mydevices/metadata.sh today_tx"

@@ -70,6 +70,9 @@ case "$1" in
     "charge_complete")
         snmpget -v2c -Oqv -m all -c set localhost pwrBatteryChargeComplete.0 2> /dev/null
         ;;
+    "rssi")
+        snmpget -v2c -Oqv -m all -c set localhost wmSignalStrength.0 2> /dev/null
+        ;;        
     *)
         exit 1
     ;;
