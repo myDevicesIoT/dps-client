@@ -49,6 +49,7 @@
       imsi = "/opt/mydevices/metadata.sh imsi"
       mac = "/opt/mydevices/metadata.sh mac"
       manufacturer = "/opt/mydevices/metadata.sh manufacturer"
+      marshaler = "/opt/mydevices/metadata.sh marshaler"
       model = "/opt/mydevices/metadata.sh model"
       power_source = "/opt/mydevices/metadata.sh power_source"
       rssi = "/opt/mydevices/metadata.sh rssi"

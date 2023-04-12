@@ -1,5 +1,7 @@
 #!/bin/sh
 
+CONFIG_FILE="/var/config/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml"
+
 function get_json_value () {
     endpoint=$1
     key=$2
@@ -12,7 +14,6 @@ function get_json_value () {
 
 case "$1" in
     "cert_expiration")
-        CONFIG_FILE="/var/config/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml"
         CERT_PATH=$(grep tls_cert $CONFIG_FILE | cut -d \" -f2)
         openssl x509 -noout -in $CERT_PATH -enddate  | cut -d= -f2
         ;;
@@ -48,7 +49,10 @@ case "$1" in
         ;;
     "rssi")
         get_json_value "localhost/api/stats/ppp" "rssiDbm"
-        ;;          
+        ;;
+    "marshaler")
+        grep marshaler $CONFIG_FILE | grep -v $(basename "$0") | cut -d \" -f2
+        ;;
     *)
         exit 1
     ;;
