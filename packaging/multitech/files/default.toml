@@ -19,7 +19,8 @@
   marshaler = "json"
 
   [integration.mqtt]
-
+    max_token_wait = "60s"
+    
     [integration.mqtt.auth]
       type = "azure_iot_hub"
 
