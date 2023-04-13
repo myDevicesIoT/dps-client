@@ -1,9 +1,9 @@
 #!/bin/sh
 
+CONFIG_FILE="/mnt/data/app/azureiot/chirpstack-gateway-bridge.toml"
 
 case "$1" in
     "cert_expiration")
-        CONFIG_FILE="/mnt/data/app/azureiot/chirpstack-gateway-bridge.toml"
         CERT_PATH=$(grep tls_cert $CONFIG_FILE | cut -d \" -f2)
         openssl x509 -noout -in $CERT_PATH -enddate  | cut -d= -f2
         ;;
@@ -41,6 +41,9 @@ case "$1" in
     "firmware_version")
         uci get -c /etc/config profile.system.fw_version
         ;;
+    "marshaler")
+        grep marshaler $CONFIG_FILE | grep -v $(basename "$0") | cut -d \" -f2
+        ;;        
     *)
         exit 1
     ;;

@@ -19,6 +19,7 @@
   marshaler = "json"
 
   [integration.mqtt]
+    max_token_wait = "60s"
 
     [integration.mqtt.auth]
       type = "azure_iot_hub"
@@ -49,8 +50,10 @@
       imsi = "/opt/mydevices/metadata.sh imsi"
       mac = "/opt/mydevices/metadata.sh mac"
       manufacturer = "/opt/mydevices/metadata.sh manufacturer"
+      marshaler = "/opt/mydevices/metadata.sh marshaler"
       model = "/opt/mydevices/metadata.sh model"
       power_source = "/opt/mydevices/metadata.sh power_source"
+      rssi = "/opt/mydevices/metadata.sh rssi"
       serial = "/opt/mydevices/metadata.sh serial"
       voltage = "/opt/mydevices/metadata.sh voltage"
       wwan_ip = "/opt/mydevices/metadata.sh wwan_ip"

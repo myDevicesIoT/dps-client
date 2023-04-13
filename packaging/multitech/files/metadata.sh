@@ -1,9 +1,19 @@
 #!/bin/sh
 
+CONFIG_FILE="/var/config/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml"
+
+function get_json_value () {
+    endpoint=$1
+    key=$2
+    if [ -x "$(command -v python3)" ]; then
+        echo $(curl -s $endpoint | python3 -c "import sys, json; print(json.load(sys.stdin)['result']['$key'])")
+    else
+        echo $(curl -s $endpoint | python -c "import sys, json; print json.load(sys.stdin)['result']['$key']")
+    fi
+}
 
 case "$1" in
     "cert_expiration")
-        CONFIG_FILE="/var/config/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml"
         CERT_PATH=$(grep tls_cert $CONFIG_FILE | cut -d \" -f2)
         openssl x509 -noout -in $CERT_PATH -enddate  | cut -d= -f2
         ;;
@@ -17,25 +27,31 @@ case "$1" in
         mts-io-sysfs show lora/eui | tr -d : | tr '[:upper:]' '[:lower:]'
         ;;    
     "eth_ip")
-        curl -s localhost/api/stats/eth0 | python -c "import sys, json; print json.load(sys.stdin)['result']['ip']"
+        get_json_value "localhost/api/stats/eth0" "ip"
         ;;
     "ppp_ip")
-        curl -s localhost/api/stats/ppp | python -c "import sys, json; print json.load(sys.stdin)['result']['localIp']"
+        get_json_value "localhost/api/stats/ppp" "localIp"
         ;;
     "apn")
-        curl -s localhost/api/ppp/modem | python -c "import sys, json; print json.load(sys.stdin)['result']['apnString']"
+        get_json_value "localhost/api/ppp/modem" "apnString"
         ;;
     "imsi")
-        curl -s localhost/api/system | python -c "import sys, json; print json.load(sys.stdin)['result']['imsi']"
+        get_json_value "localhost/api/system" "imsi"
         ;;
     "today_tx")
-        curl -s localhost/api/stats/pppTotal | python -c "import sys, json; print json.load(sys.stdin)['result']['todayTx']"
+        get_json_value "localhost/api/stats/pppTotal" "todayTx"
         ;;
     "today_rx")
-        curl -s localhost/api/stats/pppTotal | python -c "import sys, json; print json.load(sys.stdin)['result']['todayRx']"
+        get_json_value "localhost/api/stats/pppTotal" "todayRx"
         ;;
     "firmware_version")
-        curl -s localhost/api/system | python -c "import sys, json; print json.load(sys.stdin)['result']['firmware']"
+        get_json_value "localhost/api/system" "firmware"
+        ;;
+    "rssi")
+        get_json_value "localhost/api/stats/ppp" "rssiDbm"
+        ;;
+    "marshaler")
+        grep marshaler $CONFIG_FILE | grep -v $(basename "$0") | cut -d \" -f2
         ;;
     *)
         exit 1

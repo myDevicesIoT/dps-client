@@ -19,6 +19,7 @@
   marshaler = "json"
 
   [integration.mqtt]
+    max_token_wait = "60s"
 
     [integration.mqtt.auth]
       type = "azure_iot_hub"
@@ -43,5 +44,6 @@
       hardware_version = "/mnt/data/myd/myd/metadata.sh hardware_version"
       mac = "/mnt/data/myd/myd/metadata.sh mac"
       manufacturer = "/mnt/data/myd/myd/metadata.sh manufacturer"
+      marshaler = "/mnt/data/myd/myd/metadata.sh marshaler"
       model = "/mnt/data/myd/myd/metadata.sh model"
       serial = "/mnt/data/myd/myd/metadata.sh serial"
