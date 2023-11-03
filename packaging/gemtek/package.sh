@@ -51,7 +51,9 @@ mkdir -p $APP_LORA_PKG_DIR
 mkdir -p $MYDEVICES_DATA_DIR
 
 cp files/chirpstack-gateway-bridge $MYDEVICES_DATA_DIR
+chmod 755 $MYDEVICES_DATA_DIR/chirpstack-gateway-bridge
 cp files/lora_wdg_pkt_fwd.sh $APP_LORA_PKG_DIR
+chmod 755 $APP_LORA_PKG_DIR/lora_wdg_pkt_fwd.sh
 cp files/command-ctrl.sh $MYDEVICES_DATA_DIR
 chmod 755 $MYDEVICES_DATA_DIR/command-ctrl.sh
 cp files/metadata.sh $MYDEVICES_DATA_DIR
@@ -60,6 +62,8 @@ cp files/default.toml $MYDEVICES_DATA_DIR
 chmod 644 $MYDEVICES_DATA_DIR/default.toml
 cp files/azure-iot.service $MYDEVICES_DATA_DIR
 chmod 755 $MYDEVICES_DATA_DIR/azure-iot.service
+cp files/myd_ota $MYDEVICES_DATA_DIR
+chmod 755 $MYDEVICES_DATA_DIR/myd_ota
 cp $PACKAGE_FILE $MYDEVICES_DATA_DIR
 
 # Package
