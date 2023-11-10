@@ -115,10 +115,19 @@ update_certs() {
     exit 0
 }
 
+update_firmware() {
+    sh -c 'sleep 10; /mnt/data/myd/myd/myd_ota stable' >&- 2>&- &
+
+    exit 0    
+}
+
 update() {
     if [ "$UPDATE_TYPE" == "cert" ]; then
         update_certs
     fi
+    if [ "$UPDATE_TYPE" == "firmware" ]; then
+        update_firmware
+    fi    
     if [ -z "$UPDATE_URL" ]; then
         echo "\$UPDATE_URL is empty" >> $LOG_FILE 2>&1
         exit 1
