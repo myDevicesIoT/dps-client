@@ -37,6 +37,10 @@ tektelic: armv5
 	upx build/armv5/dps-client
 	cd packaging/tektelic; ./package.sh $(VERSION)
 
+kerlink: armv7
+	upx build/armv7/dps-client
+	cd packaging/kerlink; ./package.sh $(VERSION)
+
 gemtek: mipsle
 	upx build/mipsle/dps-client
 	cd packaging/gemtek; ./package.sh $(VERSION)	
