@@ -14,6 +14,7 @@ OPT_DIR="${PACKAGE_DIR}/user/mydevices"
 ETC_OPT_DIR="${PACKAGE_DIR}/etc/mydevices"
 INIT_DIR="${PACKAGE_DIR}/etc/init.d"
 MONIT_DIR="${PACKAGE_DIR}/etc/monit.d"
+PROFILE_DIR="${PACKAGE_DIR}/etc/profile.d"
 
 # Cleanup
 rm -rf $PACKAGE_DIR
@@ -50,6 +51,7 @@ mkdir -p $OPT_DIR
 mkdir -p $ETC_OPT_DIR
 mkdir -p $INIT_DIR
 mkdir -p $MONIT_DIR
+mkdir -p $PROFILE_DIR
 
 cp files/$PACKAGE_NAME.init $INIT_DIR/$PACKAGE_NAME
 cp files/$PACKAGE_NAME.monit $MONIT_DIR/$PACKAGE_NAME
@@ -61,6 +63,8 @@ cp files/dps-client-daemon.sh $OPT_DIR
 cp $PACKAGE_FILE $OPT_DIR
 cp files/default.toml $ETC_OPT_DIR
 chmod 644 $ETC_OPT_DIR/default.toml
+echo "PATH=\$PATH:$OPT_DIR" >$PROFILE_DIR/mydevices.sh
+chmod 644 $PROFILE_DIR/mydevices.sh
 
 # Package
 opkg-build -o root -g root $PACKAGE_DIR $OUTPUT_DIR
