@@ -1,6 +1,6 @@
 #!/bin/sh
 
-CERT_DIR="/var/config/mydevices"
+CERT_DIR="/user/mydevices"
 DEVEUI=""
 DEFAULT_CONFIG_FILE="/etc/mydevices/default.toml"
 CONFIG_DIR="/etc/chirpstack-gateway-bridge"
