@@ -1,0 +1,15 @@
+stages:
+  - build
+
+default:
+  services:
+    - docker:dind
+  before_script:
+    - export CI_REGISTRY_IMAGE="$REGISTRY_HOST/$CI_PROJECT_NAME"
+    - echo -n $REGISTRY_PASSWORD | docker login -u $REGISTRY_USER --password-stdin $REGISTRY_HOST || true
+
+
+build IPK:
+  stage: build
+  script:
+    - make kerlink
