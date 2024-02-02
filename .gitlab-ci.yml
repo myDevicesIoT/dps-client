@@ -10,6 +10,13 @@ default:
 
 
 build IPK:
+  image: golang:bullseye
   stage: build
   script:
+    - curl -s https://git.yoctoproject.org/opkg-utils/plain/opkg-build >/usr/local/bin/opkg-build
+    - chmod +x /usr/local/bin/opkg-build
+    - apt-get update && apt-get install -y upx-ucl
     - make kerlink
+  artifacts:
+    paths:
+      -  build/package/kerlink/dps-client_*_klkgw.ipk
