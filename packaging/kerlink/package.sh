@@ -54,6 +54,7 @@ mkdir -p $MONIT_DIR
 mkdir -p $PROFILE_DIR
 
 cp files/$PACKAGE_NAME.init $INIT_DIR/$PACKAGE_NAME
+chmod 755 $INIT_DIR/$PACKAGE_NAME
 cp files/$PACKAGE_NAME.monit $MONIT_DIR/$PACKAGE_NAME
 cp files/command-ctrl.sh $OPT_DIR
 chmod 755 $OPT_DIR/command-ctrl.sh
