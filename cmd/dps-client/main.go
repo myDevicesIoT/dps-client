@@ -105,7 +105,7 @@ func main() {
 	hubClient := hub.NewHubClient(opts.RegistrationID)
 	resp, err := hubClient.PingHome()
 	if err != nil {
-		log.WithError(err).Fatal("error pinging home")
+		log.WithError(err).Error("error pinging home")
 	}
 
 	if resp.Provider != "" {

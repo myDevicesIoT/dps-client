@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"time"
 )
 
 type HubClient struct {
@@ -12,9 +13,12 @@ type HubClient struct {
 	url        string
 }
 
-var mydevicesHub = "global.hub.mydevices.com"
+//var mydevicesHub = "global.hub.mydevices.com"
+
+var mydevicesHub = "localhost:8080"
 
 type HubResponse struct {
+	GatewayID string `json:"id"`
 	DpsClient string `json:"dps-client"`
 	CGB       string `json:"chirpstack-gateway-bridge"`
 	Endpoint  string `json:"endpoint"`
@@ -25,9 +29,11 @@ func NewHubClient(gatewayId string) *HubClient {
 
 	hub := &HubClient{}
 
-	httpClient := http.Client{}
+	httpClient := http.Client{
+		Timeout: 5 * time.Second * 5,
+	}
 
-	url := fmt.Sprintf("https://%s/api/gateways/%s", mydevicesHub, gatewayId)
+	url := fmt.Sprintf("http://%s/api/gateways/%s", mydevicesHub, gatewayId)
 
 	hub.url = url
 	hub.httpClient = httpClient
