@@ -52,11 +52,7 @@ func initConfig() provision.ProvisionerOptions {
 		}
 	}
 
-	viper.SetDefault("integration.marshaler", "json")
-	viper.SetDefault("integration.mqtt.auth.type", "azure_iot_hub")
-
-	viper.SetDefault("integration.mqtt.auth.azure_iot_hub.provisioning.Endpoint", "global.azure-devices-provisioning.net")
-	viper.SetDefault("integration.mqtt.auth.azure_iot_hub.provisioning.scope", "0ne00061135")
+	viper.SetDefault("integration.marshaler", "protobuf")
 
 	rebootCommand := fmt.Sprintf("%s reboot", commandScriptPath)
 	viper.SetDefault("commands.commands.reboot.command", rebootCommand)
@@ -117,9 +113,14 @@ func main() {
 	}
 
 	if provider == "mydevices" {
+		opts.Endpoint = resp.Endpoint
+		opts.RegistrationID = resp.GatewayID
 		client := provision.NewMyDevicesProvioner(opts)
 		client.ProvisionDevice()
 	} else {
+		viper.SetDefault("integration.mqtt.auth.type", "azure_iot_hub")
+		viper.SetDefault("integration.mqtt.auth.azure_iot_hub.provisioning.Endpoint", "global.azure-devices-provisioning.net")
+		viper.SetDefault("integration.mqtt.auth.azure_iot_hub.provisioning.scope", "0ne00061135")
 		client := provision.NewAzureIoTHubProvisioner(opts)
 		client.ProvisionDevice()
 	}
