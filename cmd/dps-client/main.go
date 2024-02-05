@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"os"
 
+	"github.com/mydevicesiot/dps-client/pkg/hub"
 	"github.com/mydevicesiot/dps-client/pkg/provision"
 
 	log "github.com/sirupsen/logrus"
@@ -16,8 +17,8 @@ import (
 var version string                                       // set by the compiler
 var commandScriptPath = "/opt/mydevices/command-ctrl.sh" // can be overridden by the compiler
 
-func initConfig() provision.Options {
-	var opts provision.Options
+func initConfig() provision.ProvisionerOptions {
+	var opts provision.ProvisionerOptions
 	var inputFile string
 	flag.StringVar(&opts.Endpoint, "e", "", "Device provisioning Endpoint URI")
 	flag.StringVar(&opts.Scope, "s", "", "Device provisioning scope ID")
@@ -104,6 +105,37 @@ func initConfig() provision.Options {
 func main() {
 	log.SetOutput(os.Stdout)
 	opts := initConfig()
-	client := provision.NewClient(opts)
-	client.ProvisionDevice()
+	provider := "azure"
+	hubClient := hub.NewHubClient(opts.RegistrationID)
+	resp, err := hubClient.PingHome()
+	if err != nil {
+		log.WithError(err).Fatal("error pinging home")
+	}
+
+	if resp.Provider != "" {
+		provider = resp.Provider
+	}
+
+	if provider == "mydevices" {
+		client := provision.NewMyDevicesProvioner(opts)
+		client.ProvisionDevice()
+	} else {
+		client := provision.NewAzureIoTHubProvisioner(opts)
+		client.ProvisionDevice()
+	}
+
+	// perform http call to mydevicesHub to get latest version of dps-client
+
+	// lets do a couple of things before registering the device
+	// 1. ping mydevices server with gateway stats and get latest versions
+
+	// check if device is under azure or mydevices if azure perform default client.AZProvisionDevice()
+	// if mydevices perform client.ProvisionDevice()
+
+	// 2. lets check current dps-client version and self update if needed
+	// download latest version from mydevices and after is done reboot the device
+
+	// 3. lets check is chirpstack-gateway-bridge is installed and running, and check version and update if needed
+	// 4. lets check if the device is already registered and if so, lets check if the registration is still valid
+
 }
