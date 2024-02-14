@@ -61,6 +61,7 @@ chmod 755 $OPT_DIR/command-ctrl.sh
 cp files/metadata.sh $OPT_DIR
 chmod 755 $OPT_DIR/metadata.sh
 cp files/dps-client-daemon.sh $OPT_DIR
+chmod 755 $OPT_DIR/dps-client-daemon.sh
 cp $PACKAGE_FILE $OPT_DIR
 cp files/default.toml $ETC_OPT_DIR
 chmod 644 $ETC_OPT_DIR/default.toml
