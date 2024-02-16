@@ -36,7 +36,7 @@ func (c *MyDevicesProvioner) writeConfigFile(registrationState RegistrationState
 	log.WithField("output file", c.opts.OutputFile).Info("writing config file")
 	viper.Set("integration.marshaler", "protobuf")
 	viper.Set("integration.mqtt.auth.type", "generic")
-	viper.Set("integration.mqtt.auth.generic.hostname", registrationState.AssignedHub)
+	viper.Set("integration.mqtt.auth.generic.server", registrationState.AssignedHub)
 	viper.Set("integration.mqtt.auth.generic.client_id", registrationState.RegistrationID)
 	viper.Set("integration.mqtt.auth.generic.tls_cert", c.opts.Cert)
 	viper.Set("integration.mqtt.auth.generic.tls_key", c.opts.Key)

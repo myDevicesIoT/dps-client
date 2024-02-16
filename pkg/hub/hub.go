@@ -2,6 +2,7 @@ package hub
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -13,9 +14,9 @@ type HubClient struct {
 	url        string
 }
 
-//var mydevicesHub = "global.hub.mydevices.com"
+var mydevicesHub = "pki.mydevices.com"
 
-var mydevicesHub = "localhost:8080"
+// var mydevicesHub = "pki.mydevices.com:8443"
 
 type HubResponse struct {
 	GatewayID string `json:"id"`
@@ -33,7 +34,7 @@ func NewHubClient(gatewayId string) *HubClient {
 		Timeout: 5 * time.Second * 5,
 	}
 
-	url := fmt.Sprintf("http://%s/api/gateways/%s", mydevicesHub, gatewayId)
+	url := fmt.Sprintf("https://%s/api/gateways/%s", mydevicesHub, gatewayId)
 
 	hub.url = url
 	hub.httpClient = httpClient
@@ -55,14 +56,14 @@ func (h *HubClient) PingHome() (HubResponse, error) {
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return hubResponse, err
+		return hubResponse, errors.New("error reading mydevices reading")
 	}
 	// body should return a json with the latest version of
 	// dps-client, chirpstack, broker, and endpoint.
 	// parse the response body and set the values to the HubResponse struct
 	err = json.Unmarshal(body, &hubResponse)
 	if err != nil {
-		return hubResponse, err
+		return hubResponse, errors.New("error parsing mydevices response")
 	}
 
 	return hubResponse, nil

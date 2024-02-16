@@ -112,6 +112,27 @@ func main() {
 		provider = resp.Provider
 	}
 
+	// lets check for version and update if needed
+	// since the dps-client doesnt know about the manufacture or model of the gateway
+	// we need to get this information from the hub
+	// and perform version check and update if needed
+	/*
+
+		type Gateway struct {
+			Id             string    `gorm:"primary_key;size:255",json:"id"`
+			Provider       string    `json:"provider"`
+			Region         string    `json:"region"`
+			Endpoint       string    `json:"endpoint"`
+			Manufacturer   string    `json:"manufacturer"`
+			Model          string    `json:"model"`
+			Serial         string    `json:"serial"`
+			DPSVersion     string    `json:"dps_version"`
+			CGBVersion     string    `json:"cgb_version"`
+			DPSArtifactURL string    `json:"dps_artifact_url"`
+			CGBArtifactURL string    `json:"cgb_artifact_url"`
+			LastSeen       time.Time `json:"last_seen"`
+		}*/
+
 	if provider == "mydevices" {
 		opts.Endpoint = resp.Endpoint
 		opts.RegistrationID = resp.GatewayID
