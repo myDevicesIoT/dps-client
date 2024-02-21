@@ -1,0 +1,3 @@
+check process dps-client pidfile /var/run/mydevices/dps-client.pid
+	start program = "/bin/sh -c '/etc/init.d/dps-client start'"
+	stop program = "/bin/sh -c '/etc/init.d/dps-client stop'"

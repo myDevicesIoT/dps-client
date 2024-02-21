@@ -26,7 +26,7 @@ To create an opkg package for a specific gateway you can use the provided makefi
 ```
 make <MANUFACTURER>
 ```
-Where `MANUFACTURER` is one of the following: `multitech`, `tektelic` or `gemtek`. The package will be created at `build/package/<MANUFACTURER>`.
+Where `MANUFACTURER` is one of the following: `kerlink`, `multitech`, `tektelic` or `gemtek`. The package will be created at `build/package/<MANUFACTURER>`.
 
 # Docker
 A *Dockerfile* is provided for ease of compiling on other architectures
