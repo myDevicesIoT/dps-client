@@ -14,9 +14,7 @@ type HubClient struct {
 	url        string
 }
 
-var mydevicesHub = "pki.mydevices.com"
-
-// var mydevicesHub = "pki.mydevices.com:8443"
+var mydevicesHub = "global-provisioning.mydevices.com"
 
 type HubResponse struct {
 	GatewayID string `json:"id"`
@@ -24,6 +22,7 @@ type HubResponse struct {
 	CGB       string `json:"chirpstack-gateway-bridge"`
 	Endpoint  string `json:"endpoint"`
 	Provider  string `json:"provider"`
+	// queue up command?
 }
 
 func NewHubClient(gatewayId string) *HubClient {

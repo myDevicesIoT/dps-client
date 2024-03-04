@@ -113,6 +113,7 @@ func main() {
 	}
 
 	// lets check for version and update if needed
+	// execute the local command (command-ctrl.sh update) to update the dps-client
 	// since the dps-client doesnt know about the manufacture or model of the gateway
 	// we need to get this information from the hub
 	// and perform version check and update if needed
@@ -131,6 +132,7 @@ func main() {
 			DPSArtifactURL string    `json:"dps_artifact_url"`
 			CGBArtifactURL string    `json:"cgb_artifact_url"`
 			LastSeen       time.Time `json:"last_seen"`
+			// queue up command?
 		}*/
 
 	if provider == "mydevices" {
