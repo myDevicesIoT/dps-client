@@ -27,7 +27,7 @@ Maintainer: myDevices, Inc. <support@mydevices.com>
 Priority: optional
 Section: network
 Source: N/A
-Description: Azure device provisioning client
+Description: myDevices gateway provisioning utility
 EOF
 
 cat > $PACKAGE_DIR/CONTROL/postinst << EOF
