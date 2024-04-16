@@ -192,7 +192,15 @@ reboot_device() {
     reboot
 }
 
+remote_command() {
+  echo "Executing remote command:"
+  $CMD_LINE
+}
+
 case "$1" in
+    "remote-cmd")
+        remote_command
+        ;;
     "remote-ctrl")
         remote_ctrl
         ;;

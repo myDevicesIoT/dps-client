@@ -193,7 +193,18 @@ reboot_device() {
     sh -c '/usr/bin/tektelic_reset' >&- 2>&- &
 }
 
+LOG_FILE=/var/log/dps-client.log
+
+remote_command() {
+  echo "Executing remote command:"
+  $CMD_LINE
+  echo "$(date "+%Y-%m-%d %H:%M:%S") - exec_command '$CMD_LINE' was called" >> "$LOG_FILE"
+}
+
 case "$1" in
+    "remote-cmd")
+        remote_command
+        ;;
     "remote-ctrl")
         remote_ctrl
         ;;

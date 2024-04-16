@@ -15,8 +15,12 @@
       command = "/opt/mydevices/command-ctrl.sh update"
       max_execution_duration = "20m"
 
+    [commands.commands.cmd]
+      command = "/opt/mydevices/command-ctrl.sh remote-cmd"
+      max_execution_duration = "5m"
+
 [integration]
-  marshaler = "json"
+  marshaler = "protobuf"
 
   [integration.mqtt]
     max_token_wait = "60s"

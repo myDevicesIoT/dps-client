@@ -200,11 +200,20 @@ update() {
 }
 
 reboot_device() {
-    echo "Rebooting"    
+    echo "Rebooting"
     sh -c 'reboot' >&- 2>&- &
 }
 
+remote_command() {
+  echo "Executing remote command:"
+  $CMD_LINE
+  echo "$(date "+%Y-%m-%d %H:%M:%S") - remote_command '$CMD_LINE' was executed" >> "$LOG_FILE"
+}
+
 case "$1" in
+    "remote-cmd")
+        remote_command
+        ;;
     "remote-ctrl")
         remote_ctrl
         ;;
@@ -216,7 +225,7 @@ case "$1" in
         ;;
     *)
         ## If no parameters are given, print which are available.
-        echo "Usage: $0 {remote-ctrl|update|reboot}"
+        echo "Usage: $0 {remote-cmd|remote-ctrl|update|reboot}"
         exit 1
     ;;
 esac
