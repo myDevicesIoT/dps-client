@@ -2,7 +2,23 @@
 
 The Device Provisioning Service Client provisions devices with an Azure IoT Hub using the Azure Device Provisioning Service and creates/updates the [chirpstack-gateway-bridge](https://github.com/brocaar/chirpstack-gateway-bridge) config file with the Azure IoT Hub connection information.
 
-# Build
+# Build with Docker (Recommended)
+
+To build and package the `dps-client` binary using Docker, run the following command:
+```shell
+docker run -v $PWD:/opt/dps-client -it mydevices/dps-client:dev-build /bin/bash
+```
+
+This will mount the current directory to the `/opt/dps-client` directory in the container. The `dps-client` source code is located in the `/opt/dps-client` directory in the container.
+
+To build the `dps-client` binary, run the following command:
+
+```shell
+make multitech
+```
+
+
+# Build Locally
 
 To build for the current OS:
 
