@@ -18,14 +18,12 @@ var mydevicesHub = "global-provisioning.mydevices.com"
 
 type HubResponse struct {
 	GatewayID string `json:"id"`
-	DpsClient string `json:"dps-client"`
-	CGB       string `json:"chirpstack-gateway-bridge"`
 	Endpoint  string `json:"endpoint"`
 	Provider  string `json:"provider"`
-	// queue up command?
+	Command   string `json:"command"`
 }
 
-func NewHubClient(gatewayId string) *HubClient {
+func NewHubClient(gatewayId string, dpsVersion string) *HubClient {
 
 	hub := &HubClient{}
 
@@ -33,7 +31,7 @@ func NewHubClient(gatewayId string) *HubClient {
 		Timeout: 5 * time.Second * 5,
 	}
 
-	url := fmt.Sprintf("https://%s/api/gateways/%s", mydevicesHub, gatewayId)
+	url := fmt.Sprintf("https://%s/api/gateways/%s/connect?dps_version=%s", mydevicesHub, gatewayId, dpsVersion)
 
 	hub.url = url
 	hub.httpClient = httpClient

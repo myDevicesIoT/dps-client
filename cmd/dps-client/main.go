@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"os"
 
+	"github.com/mydevicesiot/dps-client/internal/commands"
 	"github.com/mydevicesiot/dps-client/pkg/hub"
 	"github.com/mydevicesiot/dps-client/pkg/provision"
 
@@ -102,7 +103,7 @@ func main() {
 	log.SetOutput(os.Stdout)
 	opts := initConfig()
 	provider := "azure"
-	hubClient := hub.NewHubClient(opts.RegistrationID)
+	hubClient := hub.NewHubClient(opts.RegistrationID, version)
 	resp, err := hubClient.PingHome()
 	if err != nil {
 		log.WithError(err).Error("error pinging home")
@@ -112,28 +113,18 @@ func main() {
 		provider = resp.Provider
 	}
 
-	// lets check for version and update if needed
-	// execute the local command (command-ctrl.sh update) to update the dps-client
-	// since the dps-client doesnt know about the manufacture or model of the gateway
-	// we need to get this information from the hub
-	// and perform version check and update if needed
-	/*
-
-		type Gateway struct {
-			Id             string    `gorm:"primary_key;size:255",json:"id"`
-			Provider       string    `json:"provider"`
-			Region         string    `json:"region"`
-			Endpoint       string    `json:"endpoint"`
-			Manufacturer   string    `json:"manufacturer"`
-			Model          string    `json:"model"`
-			Serial         string    `json:"serial"`
-			DPSVersion     string    `json:"dps_version"`
-			CGBVersion     string    `json:"cgb_version"`
-			DPSArtifactURL string    `json:"dps_artifact_url"`
-			CGBArtifactURL string    `json:"cgb_artifact_url"`
-			LastSeen       time.Time `json:"last_seen"`
-			// queue up command?
-		}*/
+	if resp.Command != "" {
+		// execute command
+		log.WithField("command", resp.Command).Info("executing queued command from mydevices")
+		resp, err := commands.ExecuteCommand(commands.GatewayCommandExecRequest{
+			Command: resp.Command,
+		})
+		if err != nil {
+			log.WithError(err).Error("error executing command")
+		}
+		log.Info(string(resp.Stdout))
+		log.Info("command executed")
+	}
 
 	if provider == "mydevices" {
 		opts.Endpoint = resp.Endpoint
@@ -147,19 +138,4 @@ func main() {
 		client := provision.NewAzureIoTHubProvisioner(opts)
 		client.ProvisionDevice()
 	}
-
-	// perform http call to mydevicesHub to get latest version of dps-client
-
-	// lets do a couple of things before registering the device
-	// 1. ping mydevices server with gateway stats and get latest versions
-
-	// check if device is under azure or mydevices if azure perform default client.AZProvisionDevice()
-	// if mydevices perform client.ProvisionDevice()
-
-	// 2. lets check current dps-client version and self update if needed
-	// download latest version from mydevices and after is done reboot the device
-
-	// 3. lets check is chirpstack-gateway-bridge is installed and running, and check version and update if needed
-	// 4. lets check if the device is already registered and if so, lets check if the registration is still valid
-
 }
