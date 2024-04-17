@@ -7,7 +7,6 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/mydevicesiot/dps-client/internal/commands"
 	"github.com/mydevicesiot/dps-client/pkg/hub"
 	"github.com/mydevicesiot/dps-client/pkg/provision"
 
@@ -115,15 +114,15 @@ func main() {
 
 	if resp.Command != "" {
 		// execute command
-		log.WithField("command", resp.Command).Info("executing queued command from mydevices")
-		resp, err := commands.ExecuteCommand(commands.GatewayCommandExecRequest{
-			Command: resp.Command,
-		})
-		if err != nil {
-			log.WithError(err).Error("error executing command")
-		}
-		log.Info(string(resp.Stdout))
-		log.Info("command executed")
+		// log.WithField("command", resp.Command).Info("executing queued command from mydevices")
+		// resp, err := commands.ExecuteCommand(commands.GatewayCommandExecRequest{
+		// 	Command: resp.Command,
+		// })
+		// if err != nil {
+		// 	log.WithError(err).Error("error executing command")
+		// }
+		// log.Info(string(resp.Stdout))
+		// log.Info("command executed")
 	}
 
 	if provider == "mydevices" {
