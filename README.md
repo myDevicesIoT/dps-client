@@ -28,6 +28,12 @@ make <MANUFACTURER>
 ```
 Where `MANUFACTURER` is one of the following: `multitech`, `tektelic` or `gemtek`. The package will be created at `build/package/<MANUFACTURER>`.
 
+## Package Using Docker
+
+```
+docker run -v $(pwd):'/opt/dps-client' -i -t mydevices/dps-client:latest
+```
+
 # Docker
 A *Dockerfile* is provided for ease of compiling on other architectures
 
@@ -36,6 +42,12 @@ A *Dockerfile* is provided for ease of compiling on other architectures
 ```shell
 docker build -t mydevices/dps-client:latest .
 ```
+or
+```shell
+make docker
+```
+
+
 2. run headless container
 
 Example of how to run the binary
@@ -117,6 +129,10 @@ Usage of ./dps-client:
   -t    Output trace info
   -v    Output version info
 ```
+
+## quick test
+```
+go run cmd/dps-client/main.go -e global.azure-devices-provisioning.net -s 0ne0006B4D6 -r a840412055cc4150 -c ./certs/test/a840412055cc4150.cert.pem -k ./certs/test/a840412055cc4150.key.pem  -o ./certs/test/chirpstack-gateway-bridge.toml
 
 # Packages
 

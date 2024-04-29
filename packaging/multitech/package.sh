@@ -27,7 +27,7 @@ Maintainer: myDevices, Inc. <support@mydevices.com>
 Priority: optional
 Section: network
 Source: N/A
-Description: Azure device provisioning client
+Description: myDevices device provisioning client
 EOF
 
 cat > $PACKAGE_DIR/CONTROL/postinst << EOF
@@ -51,11 +51,13 @@ mkdir -p $ETC_OPT_DIR
 mkdir -p $INIT_DIR
 
 cp files/$PACKAGE_NAME.init $INIT_DIR/$PACKAGE_NAME
+chmod 755 $INIT_DIR/$PACKAGE_NAME
 cp files/command-ctrl.sh $OPT_DIR
 chmod 755 $OPT_DIR/command-ctrl.sh
 cp files/metadata.sh $OPT_DIR
 chmod 755 $OPT_DIR/metadata.sh
 cp files/dps-client-daemon.sh $OPT_DIR
+chmod 755 $OPT_DIR/dps-client-daemon.sh
 cp $PACKAGE_FILE $OPT_DIR
 cp files/default.toml $ETC_OPT_DIR
 chmod 644 $ETC_OPT_DIR/default.toml

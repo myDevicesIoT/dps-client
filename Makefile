@@ -44,3 +44,6 @@ gemtek: mipsle
 clean:
 	@echo "Cleaning up workspace"
 	@rm -rf build
+
+docker:
+	docker build -t mydevices/dps-client:latest .
