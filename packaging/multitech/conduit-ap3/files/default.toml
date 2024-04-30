@@ -1,0 +1,56 @@
+
+[commands]
+
+  [commands.commands]
+
+    [commands.commands.reboot]
+      command = "/opt/mydevices/command-ctrl.sh reboot"
+      max_execution_duration = "1s"
+
+    [commands.commands.remote-ctrl]
+      command = "/opt/mydevices/command-ctrl.sh remote-ctrl"
+      max_execution_duration = "15s"
+
+    [commands.commands.update]
+      command = "/opt/mydevices/command-ctrl.sh update"
+      max_execution_duration = "20m"
+
+[integration]
+  marshaler = "json"
+
+  [integration.mqtt]
+    max_token_wait = "60s"
+    
+    [integration.mqtt.auth]
+      type = "azure_iot_hub"
+
+        [integration.mqtt.auth.azure_iot_hub.provisioning]
+          endpoint = "global.azure-devices-provisioning.net"
+          scope = "0ne0006B4D6"
+
+[meta_data]
+
+  [meta_data.dynamic]
+    execution_interval = "10m0s"
+    max_execution_duration = "1m0s"
+
+    [meta_data.dynamic.commands]
+      apn = "/opt/mydevices/metadata.sh apn"
+      cert_expiration = "/opt/mydevices/metadata.sh cert_expiration"
+      chirpstack_version = "/opt/mydevices/metadata.sh chirpstack_version"
+      dps_client_version = "/opt/mydevices/metadata.sh dps_client_version"
+      eth_ip = "/opt/mydevices/metadata.sh eth_ip"
+      eui = "/opt/mydevices/metadata.sh eui"
+      firmware_version = "/opt/mydevices/metadata.sh firmware_version"
+      hardware_version = "/usr/sbin/mts-io-sysfs show hw-version"
+      imei = "/usr/sbin/mts-io-sysfs show imei"
+      imsi = "/opt/mydevices/metadata.sh imsi"
+      mac = "/usr/sbin/mts-io-sysfs show mac-eth"
+      manufacturer = "/usr/sbin/mts-io-sysfs show vendor-id"
+      marshaler = "/opt/mydevices/metadata.sh marshaler"
+      model = "/usr/sbin/mts-io-sysfs show product-id"
+      ppp_ip = "/opt/mydevices/metadata.sh ppp_ip"
+      rssi = "/opt/mydevices/metadata.sh rssi"
+      serial = "/usr/sbin/mts-io-sysfs show device-id"
+      today_rx = "/opt/mydevices/metadata.sh today_rx"
+      today_tx = "/opt/mydevices/metadata.sh today_tx"
