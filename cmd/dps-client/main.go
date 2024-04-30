@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"os"
 
+	"github.com/mydevicesiot/dps-client/pkg/hub"
 	"github.com/mydevicesiot/dps-client/pkg/provision"
 
 	log "github.com/sirupsen/logrus"
@@ -16,8 +17,8 @@ import (
 var version string                                       // set by the compiler
 var commandScriptPath = "/opt/mydevices/command-ctrl.sh" // can be overridden by the compiler
 
-func initConfig() provision.Options {
-	var opts provision.Options
+func initConfig() provision.ProvisionerOptions {
+	var opts provision.ProvisionerOptions
 	var inputFile string
 	flag.StringVar(&opts.Endpoint, "e", "", "Device provisioning Endpoint URI")
 	flag.StringVar(&opts.Scope, "s", "", "Device provisioning scope ID")
@@ -51,11 +52,7 @@ func initConfig() provision.Options {
 		}
 	}
 
-	viper.SetDefault("integration.marshaler", "json")
-	viper.SetDefault("integration.mqtt.auth.type", "azure_iot_hub")
-
-	viper.SetDefault("integration.mqtt.auth.azure_iot_hub.provisioning.Endpoint", "global.azure-devices-provisioning.net")
-	viper.SetDefault("integration.mqtt.auth.azure_iot_hub.provisioning.scope", "0ne00061135")
+	viper.SetDefault("integration.marshaler", "protobuf")
 
 	rebootCommand := fmt.Sprintf("%s reboot", commandScriptPath)
 	viper.SetDefault("commands.commands.reboot.command", rebootCommand)
@@ -104,6 +101,40 @@ func initConfig() provision.Options {
 func main() {
 	log.SetOutput(os.Stdout)
 	opts := initConfig()
-	client := provision.NewClient(opts)
-	client.ProvisionDevice()
+	provider := "azure"
+	hubClient := hub.NewHubClient(opts.RegistrationID, version)
+	resp, err := hubClient.PingHome()
+	if err != nil {
+		log.WithError(err).Error("error pinging home")
+	}
+
+	if resp.Provider != "" {
+		provider = resp.Provider
+	}
+
+	if resp.Command != "" {
+		// execute command
+		// log.WithField("command", resp.Command).Info("executing queued command from mydevices")
+		// resp, err := commands.ExecuteCommand(commands.GatewayCommandExecRequest{
+		// 	Command: resp.Command,
+		// })
+		// if err != nil {
+		// 	log.WithError(err).Error("error executing command")
+		// }
+		// log.Info(string(resp.Stdout))
+		// log.Info("command executed")
+	}
+
+	if provider == "mydevices" {
+		opts.Endpoint = resp.Endpoint
+		opts.RegistrationID = resp.GatewayID
+		client := provision.NewMyDevicesProvioner(opts)
+		client.ProvisionDevice()
+	} else {
+		viper.SetDefault("integration.mqtt.auth.type", "azure_iot_hub")
+		viper.SetDefault("integration.mqtt.auth.azure_iot_hub.provisioning.Endpoint", "global.azure-devices-provisioning.net")
+		viper.SetDefault("integration.mqtt.auth.azure_iot_hub.provisioning.scope", "0ne00061135")
+		client := provision.NewAzureIoTHubProvisioner(opts)
+		client.ProvisionDevice()
+	}
 }
