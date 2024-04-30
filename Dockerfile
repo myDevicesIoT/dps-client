@@ -14,8 +14,6 @@ WORKDIR /opkg-utils-0.6.3
 RUN make
 RUN cp opkg-build /usr/local/bin
 
-
-COPY . /opt/dps-client
 WORKDIR /opt/dps-client
 RUN go get -d -v ./...
 # RUN go build -o dps-client ./cmd/dps-client/
