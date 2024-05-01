@@ -5,7 +5,7 @@ PACKAGE_VERSION=$1
 REV="r0"
 
 #Get absolute path with readlink or opkg-build will fail
-ROOT_DIR=$(readlink -f "../../")
+ROOT_DIR=$(readlink -f "../../../")
 BUILD_DIR="${ROOT_DIR}/build"
 PACKAGE_FILE="${BUILD_DIR}/armv7/dps-client"
 OUTPUT_DIR="${BUILD_DIR}/package/multitech"
@@ -51,11 +51,13 @@ mkdir -p $ETC_OPT_DIR
 mkdir -p $INIT_DIR
 
 cp files/$PACKAGE_NAME.init $INIT_DIR/$PACKAGE_NAME
+chmod 755 $INIT_DIR/$PACKAGE_NAME
 cp files/command-ctrl.sh $OPT_DIR
 chmod 755 $OPT_DIR/command-ctrl.sh
 cp files/metadata.sh $OPT_DIR
 chmod 755 $OPT_DIR/metadata.sh
 cp files/dps-client-daemon.sh $OPT_DIR
+chmod 755 $OPT_DIR/dps-client-daemon.sh
 cp $PACKAGE_FILE $OPT_DIR
 cp files/default.toml $ETC_OPT_DIR
 chmod 644 $ETC_OPT_DIR/default.toml
