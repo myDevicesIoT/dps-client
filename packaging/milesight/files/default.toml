@@ -1,0 +1,52 @@
+[commands]
+
+  [commands.commands]
+
+    [commands.commands.reboot]
+      command = "reboot"
+      max_execution_duration = "1s"
+
+    [commands.commands.remote-ctrl]
+      command = "/usr/bin/my_devices/command-ctrl.sh remote-ctrl"
+      max_execution_duration = "15s"
+
+    [commands.commands.update]
+      command = "/usr/bin/my_devices/command-ctrl.sh update"
+      max_execution_duration = "20m"
+ 
+    [commands.commands.cmd]
+      command = "/usr/bin/my_devices/command-ctrl.sh remote-cmd"
+      max_execution_duration = "5m"
+
+[integration]
+  marshaler = "protobuf"
+
+  [integration.mqtt]
+    max_token_wait = "60s"
+
+    [integration.mqtt.auth]
+      type = "azure_iot_hub"
+
+        [integration.mqtt.auth.azure_iot_hub.provisioning]
+          endpoint = "global.azure-devices-provisioning.net"
+          scope = "0ne0006B4D6"
+
+
+[meta_data]
+
+  [meta_data.dynamic]
+    execution_interval = "10m0s"
+    max_execution_duration = "1m0s"
+
+    [meta_data.dynamic.commands]
+      chirpstack_version = "/usr/bin/my_devices/metadata.sh chirpstack_version"
+      dps_client_version = "/usr/bin/my_devices/metadata.sh dps_client_version"
+      eth_ip = "/usr/bin/my_devices/metadata.sh eth_ip"
+      eui = "/usr/bin/my_devices/metadata.sh eui"
+      firmware_version = "/usr/bin/my_devices/metadata.sh firmware_version"
+      imei = "/usr/bin/my_devices/metadata.sh imei"
+      mac = "/usr/bin/my_devices/metadata.sh mac"
+      model = "/usr/bin/my_devices/metadata.sh model"
+      serial = "/usr/bin/my_devices/metadata.sh serial"
+      wwan_ip = "/usr/bin/my_devices/metadata.sh wwan_ip"
+      marshaler = "/usr/bin/my_devices/metadata.sh marshaler"
