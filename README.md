@@ -44,6 +44,17 @@ make <MANUFACTURER>
 ```
 Where `MANUFACTURER` is one of the following: `kerlink`, `multitech`, `tektelic` or `gemtek`. The package will be created at `build/package/<MANUFACTURER>`.
 
+## Package Using Docker
+
+1. Build the image
+```shell
+docker build -f Dockerfile-dev -t mydevices/dps-client:buildtools .
+```
+2. Run the image
+```shell
+docker run -v $(pwd):'/opt/dps-client' -i -t mydevices/dps-client:buildtools
+```
+
 # Docker
 A *Dockerfile* is provided for ease of compiling on other architectures
 
